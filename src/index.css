@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+
+#typing-box {     /* keep scroll working */
+  scrollbar-width: none; /* Firefox */
+}
+
+
+#typing-box::-webkit-scrollbar {
+  display: none;         /* Chrome, Edge, Safari */
+}
