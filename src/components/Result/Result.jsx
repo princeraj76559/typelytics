@@ -1,4 +1,4 @@
-import { use, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Zap, TriangleAlert, Crosshair, RotateCcw, ArrowRight, BrainCircuit } from 'lucide-react'
 import Tile from './Tile';
 import LetterTile from './LetterTile';
@@ -13,7 +13,7 @@ const Result = () => {
     const location = useLocation()
     const {WPM, Accuracy, Incorrect, IncorrectLetters} = location.state || {WPM: 0, Accuracy: 0, Incorrect: 0, IncorrectLetters:[]}
 
-    useEffect(()=>{if (WPM===0) navigate("/")},[])
+    useEffect(()=>{if (WPM==0 || Number.isNaN(WPM)) navigate("/")},[])
 
     useEffect(()=>{
         if (IncorrectLetters.length>0){
@@ -38,9 +38,9 @@ const Result = () => {
                 </div>
             </div>}
             <div className="flex gap-1">
-                <button className="bg-gray-900 px-6 py-3 m-2 rounded-xl flex gap-2 items-center active:scale-95" onClick={()=>{navigate("/"); GlobalData.setTime(30); GlobalData.setRemainingTime(GlobalData.time); GlobalData.setHidden(false)}}><RotateCcw size={18}/>Retry Test</button>
+                <button className="bg-gray-900 px-6 py-3 m-2 rounded-xl flex gap-2 items-center active:scale-95" onClick={()=>{navigate("/");}}><RotateCcw size={18}/>Retry Test</button>
                 {/* <button className="bg-[hsl(142,71%,45%)] px-6 py-3 m-2 rounded-xl flex gap-2 items-center active:scale-95">New Test<ArrowRight size={18}/></button> */}
-                {IncorrectLetters.length>0 && <button className="bg-blue-600 px-6 py-3 m-2 rounded-xl flex gap-2 items-center active:scale-95"><BrainCircuit size={18}/>Analyze</button>}
+                {/* {IncorrectLetters.length>0 && <button className="bg-blue-600 px-6 py-3 m-2 rounded-xl flex gap-2 items-center active:scale-95"><BrainCircuit size={18}/>Analyze</button>} */}
             </div>
         </div>
     )

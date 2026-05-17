@@ -18,7 +18,7 @@ const button = () => {
                 <button className={`p-2 m-1 rounded-xl font-mono ${GlobalData.time === 60 ? "bg-[hsl(142,71%,45%)] text-white" : "bg-gray-800" }`} onClick={()=>GlobalData.setTime(60)}>60s</button>
             </div>}
 
-            <div className="text-gray-400 bg-gray-800 p-2 rounded-xl flex items-center gap-2 active:scale-95 cursor-default" onClick={()=>{navigate(0)}}>
+            <div className="text-gray-400 bg-gray-800 p-2 rounded-xl flex items-center gap-2 active:scale-95 cursor-default" onClick={()=>GlobalData.setReset(true)}>
                 <RotateCcw size={20} /> Reset
             </div>
             {/* <div className="text-gray-400 bg-gray-800 p-2 rounded-xl">

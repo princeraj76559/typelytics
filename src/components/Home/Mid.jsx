@@ -30,7 +30,6 @@ const Mid = () => {
     const [incorrectLetters, setIncorrectLetters] = useState([])    //array of dictionary of incorrect letters with its count
     const [end, setEnd] = useState(false)   //end check
     const navigate = useNavigate();     //page navigation
-    const [reset, setReset] = useState(0)
 
 
     let content = [
@@ -58,11 +57,37 @@ const Mid = () => {
         })
         setPara(letters)
     }
+    useEffect(()=>{
+        GlobalData.setReset(true)
+    },[])
 
     useEffect(() => {
-        paraToLetters()
-        setEnd(false)
-    }, [])
+        if (GlobalData.reset){
+            setPara([])
+            totalWords.current=0
+            wordsLength.current=[]
+            i.current=0
+            j.current=0
+            setCurrentIndex(-1)
+            setTyped(0)
+            setCorrect(0)
+            setIncorrect(0)
+            wpm.current=0
+            accuracy.current=0
+            setStarted(false)
+            setIncorrectLetters([])
+            setEnd(false)
+            GlobalData.setTime(30)
+            GlobalData.setRemainingTime(GlobalData.time)
+            GlobalData.setHidden(false)
+            GlobalData.setWpm(0)
+            GlobalData.setAccuracy(0)
+            clearInterval(startTimer.current);
+            paraToLetters()
+            setEnd(false)
+            GlobalData.setReset(false)
+        }
+    }, [GlobalData.reset])
 
     const letterColor = {
         "Unvisited": "text-gray-500",
@@ -98,8 +123,8 @@ const Mid = () => {
 
     const handleTyped = (e) => {
         // console.log(e.key,e.keyCode)
-        setStarted(true)
         if (GlobalData.remainingTime > 0 && (e.keyCode == 32 || (e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode == 188 || e.keyCode == 190 || e.keyCode == 222) || e.keyCode == 189 && !end) {
+            setStarted(true)
             GlobalData.setHidden(true)
             setTyped(prev => prev + 1)
             setCurrentIndex((prev) => {
@@ -195,7 +220,10 @@ const Mid = () => {
     };
 
     useEffect(() => {
-        if (end) navigate("/result", { state: { "WPM": wpm.current, "Accuracy": accuracy.current, "Incorrect": incorrect, "IncorrectLetters": incorrectLetters } })
+        if (end){
+            clearInterval(startTimer.current);
+            navigate("/result", { state: { "WPM": wpm.current, "Accuracy": accuracy.current, "Incorrect": incorrect, "IncorrectLetters": incorrectLetters } })
+        } 
     }, [end])
 
 
